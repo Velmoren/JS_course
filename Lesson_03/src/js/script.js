@@ -30,14 +30,18 @@ console.log('Дневной бюджет: ', Math.floor(budgetDay));
 console.log('Остаток:', budgetMonth % 30);
 
 // Выводим уровень заработка
-if (budgetDay >= 800) {
-  console.log('Высокий уровень дохода');
-} else if (budgetDay >= 300 && budgetDay < 800) {
-  console.log('Средний уровень дохода');
-} else if (budgetDay >= 0 && budgetDay < 300) {
-  console.log('Низкий уровень дохода');
-} else {
-  console.log('Что то пошло не так');
+switch (true) {
+  case budgetDay >= 800:
+    console.log('Высокий уровень дохода');
+    break;
+  case budgetDay >= 300 && budgetDay < 800:
+    console.log('Средний уровень дохода');
+    break;
+  case budgetDay >= 0 && budgetDay < 300:
+    console.log('Низкий уровень дохода');
+    break;
+  default:
+    console.log('Что то пошло не так');
 }
 
 // Список возможных расходов
