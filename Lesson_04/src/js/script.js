@@ -24,11 +24,6 @@ let showLength = function (item) {
   console.log(item, item.length);
 };
 
-// функция вывода суммы всех расходов за месяц 
-let getExpensesMonth = function () {
-  console.log('Сумма всех расходов за месяц: ', (priceSpendingFirst + priceSpendingSecond));
-};
-
 // функция подчета и возврата суммы всех расходов
 let getExpensesMonthCount = function () {
   let allSpending = priceSpendingFirst + priceSpendingSecond;
@@ -44,7 +39,28 @@ let getTargetMonth = function () {
   return Math.ceil(mission / getAccumulatedMonth());
 };
 
+let getStatusIncome = function () {
+  switch (true) {
+    case budgetDay >= 800:
+      return ('Высокий уровень дохода');
+    case budgetDay >= 300 && budgetDay < 800:
+      return ('Средний уровень дохода');
+    case budgetDay >= 0 && budgetDay < 300:
+      return ('Низкий уровень дохода');
+    default:
+      return ('Что то пошло не так');
+  }
+};
+
 // выводим в консоль Накопления за период
 console.log('Накопления за период: ' + getAccumulatedMonth() + ' руб.');
 // выводим в консоль срок достижения цели в месяцах
 console.log('Cрок достижения цели: ' + getTargetMonth() + ' мес.');
+// Выводим уровень заработка
+console.log(getStatusIncome());
+
+// выводим типы данных
+showTypeof(money);
+showTypeof(income);
+showTypeof(deposit);
+showLength(income);
