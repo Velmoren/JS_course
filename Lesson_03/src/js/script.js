@@ -5,7 +5,7 @@ let money = +prompt('Ваш месячный доход?'),
   addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую!'),
   deposit = confirm('Есть ли у вас депозит в банке?'),
   mission = 35000,
-  period;
+  period = 10;
 
 let budgetDay,
   budgetMonth;
@@ -16,18 +16,17 @@ let spendingFirst = prompt('Какие обязательные ежемесяч
   priceSpendingSecond = +prompt('Во сколько это обойдется?');
 
 // Выводим цель 
-console.log('Цель заработать рублей:', mission);
+console.log('Цель заработать рублей: ' + mission + ' руб.');
 
 // Высчитываем бюджет на месяц, выводим данные
 budgetMonth = money - priceSpendingFirst - priceSpendingSecond;
-console.log('Доход за месяц с учетом обязательных расходов: ', budgetMonth);
-period = Math.ceil(mission / budgetMonth);
-console.log('Цель будет достигнута через: ', period);
+console.log('Доход за месяц с учетом обязательных расходов: ' + budgetMonth + ' руб.');
+console.log('Цель будет достигнута через: ' + (Math.ceil(mission / budgetMonth)) + ' мес.');
 
 // Высчитываем дневной бюджет с учетом budgetMonth
 budgetDay = Number(budgetMonth / 30);
-console.log('Дневной бюджет: ', Math.floor(budgetDay));
-console.log('Остаток:', budgetMonth % 30);
+console.log('Дневной бюджет: ' + (Math.floor(budgetDay)) + ' руб.');
+console.log('Остаток: ' + (budgetMonth % 30) + ' руб.');
 
 // Выводим уровень заработка
 switch (true) {
