@@ -39,6 +39,12 @@ let getTargetMonth = function () {
   return Math.ceil(mission / getAccumulatedMonth());
 };
 
+// Высчитываем бюджет на месяц, выводим данные
+budgetMonth = money - priceSpendingFirst - priceSpendingSecond;
+
+// Высчитываем дневной бюджет с учетом budgetMonth
+budgetDay = Number(budgetMonth / 30);
+
 let getStatusIncome = function () {
   switch (true) {
     case budgetDay >= 800:
