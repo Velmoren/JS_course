@@ -31,15 +31,18 @@ let appData = {
         appData.addExpenses = addExpenses.toLowerCase().split(',');
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
         for (let i = 0; i < 2; i++) {
+            let myCountPrice = function() {
+
+            };
             // при первой итерации задаем первый вопрос и записываем данные в обьект expenses
             if (i === 0) {
-                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Кофе')] = +prompt(
-                    'Во сколько это обойдется?', 30);
+                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Кофе')] = myCountPrice();
                 // при второй итерации задаем второй вопрос и записываем данные в обьект expenses
             } else if (i === 1) {
-                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца')] = +prompt(
+                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца')] = prompt(
                     'Во сколько это обойдется?', 30);
             }
+
         }
     },
     // метод подчета и возврата суммы всех расходов
@@ -79,8 +82,8 @@ let appData = {
 // вызываем метод appData.getExpensesMonth();
 appData.asking();
 for (let key in appData.expenses) {
-    appData.expensesMonth += appData.expenses[key];
-    console.log(appData.expensesMonth);
+    appData.budgetMonth += +appData.expenses[key];
+    console.log(appData.budgetMonth);
 }
 // выводим в консоль Накопления за период
 console.log('Накопления за период: ' + appData.getAccumulatedMonth() + ' руб.');
