@@ -1,101 +1,93 @@
 'use strict';
 
 let money,
-  income = 'Фриланс',
-  addExpenses =
-  prompt('Перечислите возможные расходы за рассчитываемый период через запятую!', 'Первый, Второй, Третий'),
-  deposit = confirm('Есть ли у вас депозит в банке?'),
-  mission = 75000,
-  period = 10,
-  budgetDay,
-  budgetMonth,
-  spendingFirst,
-  spendingSecond;
+    start = function() {
+        do {
+            money = prompt('Ваш месячный доход?', 13000);
+        }
+        while (isNaN(money) || money == '' || money == null);
+        // переводим значение money в тип Number
+        // money = +money;
+        console.log(money);
+    };
 
-let start = function () {
-  do {
-    money = prompt('Ваш месячный доход?', 13000);
-  }
-  while (isNaN(money) || money == '' || money == null);
-  // переводим значение money в тип Number
-  money = +money;
-};
 start();
 
-// функция вывода типа данных и длины строки
-let showTypeof = function (item) {
-  console.log(item, typeof item);
-};
-let showLength = function (item) {
-  console.log(item, item.length);
-};
+let appData = {
+    income: {},
+    addIncome: [],
+    expenses: {},
+    addExpenses: [],
+    deposit: false,
+    mission: 75000,
+    period: 3,
+    budget: money,
+    budgetDay: 0,
+    budgetMonth: 0,
+    expensesMonth: 0,
+    // метод сохранения ответов на вопросы о возможных расходах
+    asking: function() {
+        let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую!', 'Первый, Второй, Третий');
+        appData.addExpenses = addExpenses.toLowerCase().split(',');
+        appData.deposit = confirm('Есть ли у вас депозит в банке?');
+        for (let i = 0; i < 2; i++) {
+            // при первой итерации задаем первый вопрос и записываем данные в обьект expenses
+            if (i === 0) {
+                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Кофе')] = +prompt(
+                    'Во сколько это обойдется?', 30);
+                // при второй итерации задаем второй вопрос и записываем данные в обьект expenses
+            } else if (i === 1) {
+                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца')] = +prompt(
+                    'Во сколько это обойдется?', 30);
+            }
+        }
+    },
+    // метод подчета и возврата суммы всех расходов
+    getExpensesMonth: function() {
+        appData.getExpensesMonth = 0;
+    },
+    // метод подчета накоплений за месяц
+    getAccumulatedMonth: function() {
+        return money - appData.getExpensesMonth;
+    },
+    // метод подчета периода достижения цели
+    getTargetMonth: function() {
+        return Math.ceil(appData.mission / appData.getAccumulatedMonth());
+    },
+    // На основании budgetDay определяем уровень дохода 
+    getStatusIncome: function() {
+        let budgetDay,
+            budgetMonth;
+        // Высчитываем бюджет на месяц, выводим данные
+        budgetMonth = Math.floor(money - appData.getExpensesMonth);
+        // Высчитываем дневной бюджет с учетом budgetMonth
+        budgetDay = Math.floor(Number(budgetMonth / 30));
 
-// функция подчета и возврата суммы всех расходов
-let getExpensesMonth = function () {
-  let sum = 0;
-  for (let i = 0; i < 2; i++) {
-    // при первой итерации задаем первый вопрос
-    if (i === 0) {
-      spendingFirst = prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Кофе');
-      // при второй итерации задаем второй вопрос
-    } else if (i === 1) {
-      spendingSecond = prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца');
+        switch (true) {
+            case budgetDay >= 800:
+                return ('Высокий уровень дохода');
+            case budgetDay >= 300 && budgetDay < 800:
+                return ('Средний уровень дохода');
+            case budgetDay >= 0 && budgetDay < 300:
+                return ('Низкий уровень дохода');
+            default:
+                return ('Что то пошло не так');
+        }
     }
-    // заношу в переменную ответ для последующей валидации
-    let count;
-    do {
-      count = prompt('Во сколько это обойдется?', 30);
-    }
-    while (isNaN(count) || count == '' || count == null);
-    // если ответ валиден - переводим count в тип Number и прибавляем к sum 
-    sum += +count;
-  }
-  return sum;
 };
 
-// присваиваем переменной getExpensesAmount результат выполнения функции getExpensesMonth()
-let getExpensesAmount = getExpensesMonth();
-// функция подчета накоплений за месяц
-let getAccumulatedMonth = function () {
-  let accumulatedMonth = money - getExpensesAmount;
-  return accumulatedMonth;
-};
-
-// функция подчета периода достижения цели
-let getTargetMonth = function () {
-  return Math.ceil(mission / getAccumulatedMonth());
-};
-
-// На основании budgetDay определяем уровень дохода 
-let getStatusIncome = function () {
-  // Высчитываем бюджет на месяц, выводим данные
-  budgetMonth = Math.floor(money - getExpensesAmount);
-  // Высчитываем дневной бюджет с учетом budgetMonth
-  budgetDay = Math.floor(Number(budgetMonth / 30));
-
-  switch (true) {
-    case budgetDay >= 800:
-      return ('Высокий уровень дохода');
-    case budgetDay >= 300 && budgetDay < 800:
-      return ('Средний уровень дохода');
-    case budgetDay >= 0 && budgetDay < 300:
-      return ('Низкий уровень дохода');
-    default:
-      return ('Что то пошло не так');
-  }
-};
-
+// вызываем метод appData.getExpensesMonth();
+appData.asking();
+for (let key in appData.expenses) {
+    appData.expensesMonth += appData.expenses[key];
+    console.log(appData.expensesMonth);
+}
 // выводим в консоль Накопления за период
-console.log('Накопления за период: ' + getAccumulatedMonth() + ' руб.');
+console.log('Накопления за период: ' + appData.getAccumulatedMonth() + ' руб.');
 // выводим в консоль срок достижения цели в месяцах
-console.log((getTargetMonth() >= 0) ?
-  'Cрок достижения цели: ' + getTargetMonth() + ' мес.' : 'Цель не будет достигнута');
+console.log((appData.getTargetMonth() >= 0) ?
+    'Cрок достижения цели: ' + appData.getTargetMonth() + ' мес.' : 'Цель не будет достигнута');
 // Выводим уровень заработка
-console.log(getStatusIncome());
+console.log(appData.getStatusIncome());
 
-
-// выводим типы данных
-showTypeof(money);
-showTypeof(income);
-showTypeof(deposit);
-showLength(income);
+console.log(appData.expenses);
