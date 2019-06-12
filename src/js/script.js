@@ -8,7 +8,7 @@ let money,
         while (isNaN(money) || money == '' || money == null);
         // переводим значение money в тип Number
         // money = +money;
-        console.log(money);
+        console.log('Ваш месячный доход: ' + money + 'руб.');
     };
 
 start();
@@ -31,47 +31,49 @@ let appData = {
         appData.addExpenses = addExpenses.toLowerCase().split(',');
         appData.deposit = confirm('Есть ли у вас депозит в банке?');
         for (let i = 0; i < 2; i++) {
+            // валидация вводимых значений возвращает цену, если она валидна
             let myCountPrice = function() {
-
+                let count;
+                do {
+                    count = prompt('Во сколько это обойдется?', 30);
+                }
+                while (isNaN(count) || count == '' || count == null);
+                return count;
             };
             // при первой итерации задаем первый вопрос и записываем данные в обьект expenses
             if (i === 0) {
                 appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Кофе')] = myCountPrice();
                 // при второй итерации задаем второй вопрос и записываем данные в обьект expenses
             } else if (i === 1) {
-                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца')] = prompt(
-                    'Во сколько это обойдется?', 30);
+                appData.expenses[prompt('Какие обязательные ежемесячные расходы у вас есть?', 'Пицца')] = myCountPrice();
             }
-
         }
     },
     // метод подчета и возврата суммы всех расходов
     getExpensesMonth: function() {
-        appData.getExpensesMonth = 0;
+        for (let key in appData.expenses) {
+            appData.expensesMonth += +appData.expenses[key];
+        }
     },
     // метод подчета накоплений за месяц
-    getAccumulatedMonth: function() {
-        return money - appData.getExpensesMonth;
+    getBudget: function() {
+        // Высчитываем бюджет на месяц, выводим данные
+        appData.budgetMonth = Math.floor(money - appData.expensesMonth);
+        // Высчитываем дневной бюджет с учетом budgetMonth
+        appData.budgetDay = Math.floor(Number(appData.budgetMonth / 30));
     },
     // метод подчета периода достижения цели
     getTargetMonth: function() {
-        return Math.ceil(appData.mission / appData.getAccumulatedMonth());
+        return Math.ceil(appData.mission / appData.budgetMonth);
     },
     // На основании budgetDay определяем уровень дохода 
     getStatusIncome: function() {
-        let budgetDay,
-            budgetMonth;
-        // Высчитываем бюджет на месяц, выводим данные
-        budgetMonth = Math.floor(money - appData.getExpensesMonth);
-        // Высчитываем дневной бюджет с учетом budgetMonth
-        budgetDay = Math.floor(Number(budgetMonth / 30));
-
         switch (true) {
-            case budgetDay >= 800:
+            case appData.budgetDay >= 800:
                 return ('Высокий уровень дохода');
-            case budgetDay >= 300 && budgetDay < 800:
+            case appData.budgetDay >= 300 && appData.budgetDay < 800:
                 return ('Средний уровень дохода');
-            case budgetDay >= 0 && budgetDay < 300:
+            case appData.budgetDay >= 0 && appData.budgetDay < 300:
                 return ('Низкий уровень дохода');
             default:
                 return ('Что то пошло не так');
@@ -79,18 +81,19 @@ let appData = {
     }
 };
 
-// вызываем метод appData.getExpensesMonth();
+// вызываем методы обьекта appData;
 appData.asking();
-for (let key in appData.expenses) {
-    appData.budgetMonth += +appData.expenses[key];
-    console.log(appData.budgetMonth);
-}
-// выводим в консоль Накопления за период
-console.log('Накопления за период: ' + appData.getAccumulatedMonth() + ' руб.');
+appData.getExpensesMonth();
+appData.getBudget();
+// выводим в консоль расходы ха месяц
+console.log('Расходы за месяц составляют ' + appData.expensesMonth + 'руб.');
 // выводим в консоль срок достижения цели в месяцах
 console.log((appData.getTargetMonth() >= 0) ?
     'Cрок достижения цели: ' + appData.getTargetMonth() + ' мес.' : 'Цель не будет достигнута');
 // Выводим уровень заработка
 console.log(appData.getStatusIncome());
 
-console.log(appData.expenses);
+console.log('Наша программа включает в себя данные: ');
+for (let key in appData) {
+    console.log(key + ': ' + appData[key]);
+}
