@@ -1,4 +1,4 @@
-'no strict'
+'use strict'
 const lang = 'ru';
 const namePerson = 'Артем';
 
