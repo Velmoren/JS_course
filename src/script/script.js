@@ -18,8 +18,6 @@ let start = document.querySelector('#start'),
     targetAmount = document.querySelector('.target-amount'),
     periodSelect = document.querySelector('.period-select'),
     periodAmount = document.querySelector('.period-amount'),
-    // все input
-    allInputs = document.querySelectorAll('input'),
     // получаю блоки в правой стороне страницы по классу
     budgetDayValue = document.getElementsByClassName('budget_day-value')[0],
     budgetMonthValue = document.getElementsByClassName('budget_month-value')[0],
@@ -28,7 +26,11 @@ let start = document.querySelector('#start'),
     additionalIncomeValue = document.getElementsByClassName('additional_income-value')[0],
     additionalExpensesValue = document.getElementsByClassName('additional_expenses-value')[0],
     incomePeriodValue = document.getElementsByClassName('income_period-value')[0],
-    targetMonthValue = document.getElementsByClassName('target_month-value')[0];
+    targetMonthValue = document.getElementsByClassName('target_month-value')[0],
+    // все input
+    allInputs = document.querySelectorAll('input'),
+    // все кнопки плюс
+    btnPlus = document.querySelectorAll('.btn_plus');
 
 let getStringArr = [];
 
@@ -52,16 +54,23 @@ let appData = {
     },
 
     start: function() {
-        // функция перебора и блокировки input
-        allInputs.forEach((item) => {
-            item.setAttribute('readonly', 'readonly');
-        });
-
+        // проверка на заполненный Месячный доход
         if (inputSalary.value === '') {
             start.setAttribute('disabled', 'disabled');
             return;
         }
 
+        // иначе функция перебора и блокировки input и кнопки плюс
+        // все input ищем повторно чтоб поймать новосозданные
+        allInputs = document.querySelectorAll('input');
+        allInputs.forEach((item) => {
+            item.setAttribute('disabled', 'disabled');
+        });
+        // все кнопки плюс ищем повторно чтоб поймать новосозданные
+        btnPlus = document.querySelectorAll('.btn_plus');
+        btnPlus.forEach((item) => {
+            item.setAttribute('disabled', 'disabled');
+        });
         start.setAttribute('style', 'display: none');
         cancel.setAttribute('style', 'display: block');
 
