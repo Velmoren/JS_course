@@ -52,10 +52,18 @@ let appData = {
     },
 
     start: function() {
+        // функция перебора и блокировки input
+        allInputs.forEach((item) => {
+            item.setAttribute('readonly', 'readonly');
+        });
+
         if (inputSalary.value === '') {
             start.setAttribute('disabled', 'disabled');
             return;
         }
+
+        start.setAttribute('style', 'display: none');
+        cancel.setAttribute('style', 'display: block');
 
         appData.budget = +inputSalary.value;
 
@@ -68,13 +76,6 @@ let appData = {
         appData.getBudget();
 
         appData.showResult();
-
-        // функция перебора и блокировки input
-        allInputs.forEach((item) => {
-            item.setAttribute('readonly', 'readonly');
-            start.setAttribute('style', 'display: none');
-            cancel.setAttribute('style', 'display: block');
-        });
     },
 
     // метод добавления полей ввода 'Дополнительный доход'
