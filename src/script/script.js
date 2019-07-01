@@ -32,6 +32,9 @@ let start = document.querySelector('#start'),
 	// все кнопки плюс
 	btnPlus = document.querySelectorAll('.btn_plus');
 
+// функция смены IncomePeriodValue в зависимости от periodAmountValue
+let cahgeIncomePeriodValue = () => { incomePeriodValue.value = this.calcPeriod(); }
+
 let getStringArr = [];
 
 let appData = {
@@ -54,6 +57,7 @@ let appData = {
 	},
 
 	start: function() {
+
 		// проверка на заполненный Месячный доход
 		if (inputSalary.value === '') {
 			start.setAttribute('disabled', 'disabled');
@@ -108,7 +112,6 @@ let appData = {
 			btnAddIncome.style.display = 'none';
 		}
 	},
-
 	// метод добавления полей ввода 'Обязательные расходы'
 	addExpensesBlock: function() {
 		// копируем первый елемент и вставляем его до кнопки Плюс
@@ -161,7 +164,7 @@ let appData = {
 		incomePeriodValue.value = this.calcPeriod();
 		budgetMonthValue.value = this.budgetMonth;
 
-		periodSelect.addEventListener('change', () => { incomePeriodValue.value = this.calcPeriod(); });
+		periodSelect.addEventListener('change', cahgeIncomePeriodValue);
 	},
 
 	getAddIncome: function() {
@@ -236,20 +239,29 @@ let appData = {
 		return this.budgetMonth * periodSelect.value;
 	},
 	reset: function() {
+		// разблокируем и очищаем все input[type=text]
 		allInputs = document.querySelectorAll('input[type=text]');
 		allInputs.forEach((item) => {
 			item.removeAttribute('disabled', 'disabled');
 			item.value = '';
 		});
 
+		// разблокируем кнопки Плюс
 		btnPlus = document.querySelectorAll('.btn_plus');
 		btnPlus.forEach((item) => {
 			item.removeAttribute('disabled', 'disabled');
 		});
+
+		// меняем местами кнопки Сбросить и Расчитать
 		start.setAttribute('style', 'display: block');
 		cancel.setAttribute('style', 'display: none');
 
-		periodSelect.addEventListener('change', () => { incomePeriodValue.value = 0; });
+		// возвращаем input[range] в имходное состояние 
+		periodSelect.value = 1;
+		periodAmount.innerHTML = 1;
+		// удаляем обработчик события
+		periodSelect.removeEventListener('change', cahgeIncomePeriodValue);
+
 		// убираем лишние блоки input и возвращаем кнопку плюс
 		incomeItems = document.querySelectorAll('.income-items');
 		for (let i = 1; i < incomeItems.length; i++) {
