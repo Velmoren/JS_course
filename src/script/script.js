@@ -32,11 +32,6 @@ let start = document.querySelector('#start'),
 	// все кнопки плюс
 	btnPlus = document.querySelectorAll('.btn_plus');
 
-// функция смены IncomePeriodValue в зависимости от periodAmountValue
-let cahgeIncomePeriodValue = () => { incomePeriodValue.value = this.calcPeriod(); }
-
-let getStringArr = [];
-
 let appData = {
 	budget: 0,
 	income: {},
@@ -50,6 +45,13 @@ let appData = {
 	budgetDay: 0,
 	budgetMonth: 0,
 	expensesMonth: 0,
+	// метод смены IncomePeriodValue в зависимости от periodAmountValue
+	cahgeIncomePeriodValue: () => {
+		console.log(this);
+
+		incomePeriodValue.value = appData.calcPeriod();
+	},
+
 	check: function() {
 		if (inputSalary.value !== '') {
 			start.removeAttribute('disabled', 'disabled');
@@ -137,7 +139,7 @@ let appData = {
 			let itemIncome = item.querySelector('.income-title').value;
 			let cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
-				this.income[itemIncome] = cashIncome;
+				this.income[itemIncome.charAt(0).toUpperCase() + itemIncome.substring(1).toLowerCase()] = cashIncome;
 				this.incomeMonth += +cashIncome;
 			}
 		});
@@ -149,7 +151,7 @@ let appData = {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-				this.expenses[itemExpenses] = cashExpenses;
+				this.expenses[itemExpenses.charAt(0).toUpperCase() + itemExpenses.substring(1).toLowerCase()] = cashExpenses;
 			}
 		});
 	},
@@ -163,8 +165,8 @@ let appData = {
 		targetMonthValue.value = Math.ceil(this.getTargetMonth());
 		incomePeriodValue.value = this.calcPeriod();
 		budgetMonthValue.value = this.budgetMonth;
+		periodSelect.addEventListener('change', this.cahgeIncomePeriodValue);
 
-		periodSelect.addEventListener('change', cahgeIncomePeriodValue);
 	},
 
 	getAddIncome: function() {
@@ -260,7 +262,7 @@ let appData = {
 		periodSelect.value = 1;
 		periodAmount.innerHTML = 1;
 		// удаляем обработчик события
-		periodSelect.removeEventListener('change', cahgeIncomePeriodValue);
+		periodSelect.removeEventListener('change', this.cahgeIncomePeriodValue);
 
 		// убираем лишние блоки input и возвращаем кнопку плюс
 		incomeItems = document.querySelectorAll('.income-items');
@@ -281,30 +283,4 @@ inputSalary.addEventListener('keyup', appData.check);
 btnAddExpenses.addEventListener('click', appData.addExpensesBlock);
 btnAddIncome.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('change', () => { periodAmount.innerHTML = periodSelect.value; });
-cancel.addEventListener('click', appData.reset);
-// // выводим в консоль расходы ха месяц
-// console.log('Расходы за месяц составляют ' + appData.expensesMonth + 'руб.');
-// // выводим в консоль срок достижения цели в месяцах
-// console.log((appData.getTargetMonth() >= 0) ?
-//     'Cрок достижения цели: ' + appData.getTargetMonth() + ' мес.' : 'Цель не будет достигнута');
-// // Выводим уровень заработка
-// console.log(appData.getStatusIncome());
-// Выводим в консоль возможные доходы и расходы в одну строку, разделенные запятыми
-
-for (let key in appData.income) {
-	// принимаем ключ, выводим первый символ строки в верхнем регистре, все остальные начиная со второго символа в нижнем регистре
-	// добавляем в массив getStringArr
-	key = key.charAt(0).toUpperCase() + key.substring(1).toLowerCase();
-	getStringArr.push(key);
-}
-for (let key in appData.expenses) {
-	key = key.charAt(0).toUpperCase() + key.substring(1).toLowerCase();
-	getStringArr.push(key);
-}
-
-// console.log('Возможные доходы и расходы: ' + getStringArr.join(', '));
-
-// console.log('Наша программа включает в себя данные: ');
-// for (let key in appData) {
-//     console.log(key + ': ' + appData[key]);
-// }
+cancel.addEventListener('click', appData.reset.bind(appData));
