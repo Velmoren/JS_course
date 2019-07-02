@@ -46,10 +46,15 @@ let appData = {
 	budgetMonth: 0,
 	expensesMonth: 0,
 	// метод смены IncomePeriodValue в зависимости от periodAmountValue
-	cahgeIncomePeriodValue: function() {
-		incomePeriodValue.value = this.calcPeriod();
+	cahgeIncomePeriodValue: () => {
+		incomePeriodValue.value = appData.calcPeriod();
 	},
+	addChange: function() {
 
+	},
+	removeChange: function() {
+
+	},
 	check: function() {
 		if (inputSalary.value !== '') {
 			start.removeAttribute('disabled', 'disabled');
@@ -163,8 +168,7 @@ let appData = {
 		targetMonthValue.value = Math.ceil(this.getTargetMonth());
 		incomePeriodValue.value = this.calcPeriod();
 		budgetMonthValue.value = this.budgetMonth;
-		periodSelect.addEventListener('change', this.cahgeIncomePeriodValue.bind(appData));
-
+		periodSelect.addEventListener('change', this.cahgeIncomePeriodValue);
 	},
 
 	getAddIncome: function() {
@@ -260,7 +264,7 @@ let appData = {
 		periodSelect.value = 1;
 		periodAmount.innerHTML = 1;
 		// удаляем обработчик события
-		periodSelect.removeEventListener('change', appData.cahgeIncomePeriodValue);
+		periodSelect.removeEventListener('change', this.cahgeIncomePeriodValue);
 
 		// убираем лишние блоки input и возвращаем кнопку плюс
 		incomeItems = document.querySelectorAll('.income-items');
