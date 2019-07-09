@@ -2,6 +2,8 @@ window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	let coube = document.querySelector('.coube'),
+		btn = document.querySelector('#btn'),
+		reset = document.querySelector('#reset'),
 		count = 0,
 		coubeInterval;
 
@@ -20,5 +22,25 @@ window.addEventListener('DOMContentLoaded', function() {
 			cancelAnimationFrame(coubeInterval);
 		}
 	}
-	coubeInterval = requestAnimationFrame(coubeGo);
+
+	let myAnimate = true;
+	btn.addEventListener('click', function() {
+		if (myAnimate) {
+			coubeInterval = requestAnimationFrame(coubeGo);
+			myAnimate = false;
+		} else {
+			myAnimate = true;
+			cancelAnimationFrame(coubeInterval);
+		}
+	})
+	reset.addEventListener('click', function() {
+		count = 0;
+		cancelAnimationFrame(coubeInterval);
+		myAnimate = true;
+		coube.style.left = 0;
+		coube.style.top = 0;
+		coube.style.transform = 'rotate(' + (0) + 'deg)';
+
+	})
+
 });
