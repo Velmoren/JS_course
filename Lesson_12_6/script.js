@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', function() {
 	const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+		paragraphHours = document.createElement('p'),
 		paragraphDay = document.createElement('p'),
 		paragraphTime = document.createElement('p'),
 		paragraphNewYear = document.createElement('p');
@@ -14,9 +15,23 @@ window.addEventListener('DOMContentLoaded', function() {
 			}),
 			myDayToNewYear = countTimer('01 01 2020');
 
+		let nowHoursDay = myDate.getHours();
+		if (nowHoursDay >= 0 && nowHoursDay < 6) {
+			paragraphHours.innerHTML = `Доброй ночи`;
+		} else if (nowHoursDay >= 6 && nowHoursDay < 12) {
+			paragraphHours.innerHTML = `Доброе утро`;
+		} else if (nowHoursDay >= 12 && nowHoursDay < 18) {
+			paragraphHours.innerHTML = `Добрый день`;
+		} else if (nowHoursDay >= 18 && nowHoursDay < 12) {
+			paragraphHours.innerHTML = `Добрый вечер`;
+		} else {
+			paragraphHours.innerHTML = `Мы вне времени, сударь`;
+		}
 		paragraphDay.innerHTML = `Сегодня: ${days[myDate.getDay()]}`;
 		paragraphTime.innerHTML = `Текущее время: ${myTime}`;
 		paragraphNewYear.innerHTML = `До нового года осталось ${myDayToNewYear.day} дней`;
+
+		document.body.appendChild(paragraphHours);
 		document.body.appendChild(paragraphDay);
 		document.body.appendChild(paragraphTime);
 		document.body.appendChild(paragraphNewYear);
