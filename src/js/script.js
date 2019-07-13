@@ -44,7 +44,24 @@ window.addEventListener('DOMContentLoaded', function() {
 		let timerInterval = setInterval(updateClock, 1000);
 
 	}
+	countTimer('23 july 2019');
 
-	countTimer('9 july 2019');
-	// setInterval(countTimer, 1000, '17 july 2019');
+	// меню
+	const toggleMenu = () => {
+
+		const btnMenu = document.querySelector('.menu'),
+			menu = document.querySelector('menu'),
+			closeBtn = document.querySelector('.close-btn'),
+			manuItems = menu.querySelectorAll('ul>li');
+
+		const handlerManu = () => {
+			menu.classList.toggle('active-menu');
+		};
+
+		btnMenu.addEventListener('click', handlerManu);
+		closeBtn.addEventListener('click', handlerManu);
+		manuItems.forEach((elem) => elem.addEventListener('click', handlerManu));
+
+	};
+	toggleMenu();
 });
