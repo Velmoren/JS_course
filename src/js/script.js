@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
 	// таймер 
@@ -21,16 +21,23 @@ window.addEventListener('DOMContentLoaded', function() {
 			// day = Math.floor(timeRemaining / 60 / 60 / 24);
 
 			// возвращаем обьект значений
-			return { timeRemaining, hours, minutes, seconds };
+			return {
+				timeRemaining,
+				hours,
+				minutes,
+				seconds
+			};
 		}
 
 		function updateClock() {
 			let timer = getTimeRemaining();
 			// если число меньше 10 добавляем перед ним 0
 
-			(timer.hours > 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours;
-			(timer.minutes > 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes;
-			(timer.seconds > 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds;
+			(timer.hours > 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours
+
+			(timer.minutes > 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes
+
+			(timer.seconds > 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds
 
 			if (timer.timeRemaining <= 0) {
 				// очищаем setInterval если время вышло
@@ -56,7 +63,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
 		const handlerManu = () => {
 			menu.classList.toggle('active-menu');
-			ц
 		};
 
 		btnMenu.addEventListener('click', handlerManu);
@@ -65,5 +71,22 @@ window.addEventListener('DOMContentLoaded', function() {
 
 	};
 	toggleMenu();
+
+	// popup
+	const togglePopUp = () => {
+		const popup = document.querySelector('.popup'),
+			popupBtn = document.querySelectorAll('.popup-btn'),
+			popupClose = document.querySelector('.popup-close');
+
+		popupBtn.forEach((elem) => {
+			elem.addEventListener('click', () => {
+				popup.style.display = 'block';
+			});
+		});
+
+		popupClose.addEventListener('click', () => {
+			popup.style.display = 'none';
+		});
+	};
+	togglePopUp();
 });
-// ccc  16:28
