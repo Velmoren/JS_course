@@ -56,6 +56,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 		const handlerManu = () => {
 			menu.classList.toggle('active-menu');
+			ц
 		};
 
 		btnMenu.addEventListener('click', handlerManu);
@@ -65,3 +66,4 @@ window.addEventListener('DOMContentLoaded', function() {
 	};
 	toggleMenu();
 });
+// ccc  16:28
