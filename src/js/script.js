@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	// таймер 
@@ -49,7 +49,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 		let timerInterval = setInterval(updateClock, 1000);
 
-
 	};
 	countTimer();
 
@@ -78,34 +77,54 @@ window.addEventListener('DOMContentLoaded', function () {
 			popupContent = document.querySelector('.popup-content'),
 			popupBtn = document.querySelectorAll('.popup-btn'),
 			popupClose = document.querySelector('.popup-close');
+
 		let togglePopUpInterval,
 			count = -100;
+
 		const easyTogglePopUp = () => {
 			popupBtn.forEach((elem) => {
 				elem.addEventListener('click', () => {
+					let hightMonitor = document.documentElement.clientWidth;
+
 					popup.style.display = 'block';
+					if (hightMonitor >= 992) {
+						console.log(hightMonitor);
+
+						togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
+					} else {
+						return;
+					}
 				});
 			});
 
 			popupClose.addEventListener('click', () => {
+				let hightMonitor = document.documentElement.clientWidth;
 				popup.style.display = 'none';
+				if (hightMonitor >= 992) {
+					count = -100;
+					cancelAnimationFrame(togglePopUpInterval);
+				} else {
+					return;
+				}
 			});
 		};
 		easyTogglePopUp();
 
 		let animateTogglePopUp = () => {
+
 			togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
-			count++;
-			console.log(count);
+			count += 3;
 
 			if (count < 0) {
 				// coube.style.left = count + 'px';
-				popupContent.style.transform = `translateY(${count * 5}%)`;
+				popupContent.style.transform = `translateY(${count}%)`;
 			} else {
 				cancelAnimationFrame(togglePopUpInterval);
+				count = -100;
 			}
 		};
-		togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
+
 	};
+
 	togglePopUp();
 });
