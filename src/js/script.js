@@ -33,11 +33,11 @@ window.addEventListener('DOMContentLoaded', function () {
 			let timer = getTimeRemaining();
 			// если число меньше 10 добавляем перед ним 0
 
-			(timer.hours > 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours
+			(timer.hours > 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours;
 
-			(timer.minutes > 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes
+			(timer.minutes > 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes;
 
-			(timer.seconds > 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds
+			(timer.seconds > 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds;
 
 			if (timer.timeRemaining <= 0) {
 				// очищаем setInterval если время вышло
