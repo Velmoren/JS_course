@@ -2,14 +2,14 @@ window.addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
 	// таймер 
-	function countTimer(deadline) {
+	const countTimer = () => {
 		let timerHours = document.querySelector('#timer-hours'),
 			timerMinutes = document.querySelector('#timer-minutes'),
 			timerSeconds = document.querySelector('#timer-seconds');
 
 		function getTimeRemaining() {
 			// назначаем переменной дату окончания акции
-			let dateStop = new Date(deadline).getTime(),
+			let dateStop = new Date().setHours(24, 0, 0, 0),
 				// назначаем переменной нынешнюю дату
 				dateNow = new Date().getTime(),
 				// находим разницу между датой нынешней и датой окончания в секундах(делим на 1000)
@@ -33,16 +33,15 @@ window.addEventListener('DOMContentLoaded', function () {
 			let timer = getTimeRemaining();
 			// если число меньше 10 добавляем перед ним 0
 
-			(timer.hours > 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours;
+			(timer.hours >= 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours;
 
-			(timer.minutes > 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes;
+			(timer.minutes >= 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes;
 
-			(timer.seconds > 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds;
+			(timer.seconds >= 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds;
 
-			if (timer.timeRemaining <= 0) {
+			if (timer.seconds == 0) {
 				// очищаем setInterval если время вышло
-				clearInterval(timerInterval);
-				timerHours.textContent = "00";
+				timerHours.textContent = "24";
 				timerMinutes.textContent = "00";
 				timerSeconds.textContent = "00";
 			}
@@ -50,8 +49,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
 		let timerInterval = setInterval(updateClock, 1000);
 
-	}
-	countTimer('23 july 2019');
+
+	};
+	countTimer();
 
 	// меню
 	const toggleMenu = () => {
@@ -75,18 +75,37 @@ window.addEventListener('DOMContentLoaded', function () {
 	// popup
 	const togglePopUp = () => {
 		const popup = document.querySelector('.popup'),
+			popupContent = document.querySelector('.popup-content'),
 			popupBtn = document.querySelectorAll('.popup-btn'),
 			popupClose = document.querySelector('.popup-close');
-
-		popupBtn.forEach((elem) => {
-			elem.addEventListener('click', () => {
-				popup.style.display = 'block';
+		let togglePopUpInterval,
+			count = -100;
+		const easyTogglePopUp = () => {
+			popupBtn.forEach((elem) => {
+				elem.addEventListener('click', () => {
+					popup.style.display = 'block';
+				});
 			});
-		});
 
-		popupClose.addEventListener('click', () => {
-			popup.style.display = 'none';
-		});
+			popupClose.addEventListener('click', () => {
+				popup.style.display = 'none';
+			});
+		};
+		easyTogglePopUp();
+
+		let animateTogglePopUp = () => {
+			togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
+			count++;
+			console.log(count);
+
+			if (count < 0) {
+				// coube.style.left = count + 'px';
+				popupContent.style.transform = `translateY(${count * 5}%)`;
+			} else {
+				cancelAnimationFrame(togglePopUpInterval);
+			}
+		};
+		togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
 	};
 	togglePopUp();
 });
