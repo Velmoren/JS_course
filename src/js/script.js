@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
 	// таймер 
@@ -55,19 +55,32 @@ window.addEventListener('DOMContentLoaded', function() {
 	// меню
 	const toggleMenu = () => {
 
-		const btnMenu = document.querySelector('.menu'),
-			menu = document.querySelector('menu'),
-			closeBtn = document.querySelector('.close-btn'),
-			manuItems = menu.querySelectorAll('ul>li');
+		const menu = document.querySelector('menu'),
+			body = document.querySelector('body');
 
-		const handlerManu = () => {
-			menu.classList.toggle('active-menu');
-		};
+		body.addEventListener('click', (event) => {
+			let target = event.target;
 
-		btnMenu.addEventListener('click', handlerManu);
-		closeBtn.addEventListener('click', handlerManu);
-		manuItems.forEach((elem) => elem.addEventListener('click', handlerManu));
+			// если target имеет класс close-btn - открываем меню и выходим из программы
+			if (target.classList.contains('close-btn')) {
+				menu.classList.toggle('active-menu');
+				return;
+			}
 
+			// если target не имеет класса close-btn, но имеет тэг <a></a> закрываем меню и выходим из программы
+			if (target.tagName === 'A') {
+				menu.classList.toggle('active-menu');
+				return;
+			}
+
+			// если прочие условия не подошли - применяем к target метод closest() и ищем в родителях target класс .menu
+			target = target.closest('.menu');
+			if (target !== null && target.classList.contains('menu')) {
+				menu.classList.toggle('active-menu');
+				return;
+			}
+			return;
+		});
 	};
 	toggleMenu();
 
@@ -75,8 +88,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	const togglePopUp = () => {
 		const popup = document.querySelector('.popup'),
 			popupContent = document.querySelector('.popup-content'),
-			popupBtn = document.querySelectorAll('.popup-btn'),
-			popupClose = document.querySelector('.popup-close');
+			popupBtn = document.querySelectorAll('.popup-btn');
 
 		let togglePopUpInterval,
 			count = -100;
@@ -88,8 +100,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
 					popup.style.display = 'block';
 					if (hightMonitor >= 992) {
-						console.log(hightMonitor);
-
 						togglePopUpInterval = requestAnimationFrame(animateTogglePopUp);
 					} else {
 						return;
@@ -97,15 +107,29 @@ window.addEventListener('DOMContentLoaded', function() {
 				});
 			});
 
-			popupClose.addEventListener('click', () => {
-				let hightMonitor = document.documentElement.clientWidth;
-				popup.style.display = 'none';
-				if (hightMonitor >= 992) {
-					count = -100;
-					cancelAnimationFrame(togglePopUpInterval);
+			// скрываем наше модальное окно по клику по экрану и по крестику из одного обработчика
+			popup.addEventListener('click', (event) => {
+				let target = event.target,
+					hightMonitor = document.documentElement.clientWidth;
+
+				if (target.classList.contains('popup-close')) {
+					popup.style.display = 'none';
+					if (hightMonitor >= 992) {
+						count = -100;
+						cancelAnimationFrame(togglePopUpInterval);
+					} else {
+						return;
+					}
 				} else {
-					return;
+					target = target.closest('.popup-content');
+
+					if (!target) {
+						popup.style.display = 'none';
+					}
 				}
+
+
+
 			});
 		};
 		easyTogglePopUp();
@@ -132,6 +156,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		const tabHeader = document.querySelector('.service-header'),
 			tab = tabHeader.querySelectorAll('.service-header-tab'),
 			tabContent = document.querySelectorAll('.service-tab');
+
 		const toggleTabContent = (index) => {
 			for (let i = 0; i < tabContent.length; i++) {
 				if (index === i) {
@@ -146,24 +171,21 @@ window.addEventListener('DOMContentLoaded', function() {
 
 		tabHeader.addEventListener('click', (event) => {
 			let target = event.target;
+			// closest проверяет у элемента указанный селектор и, если он соответствует, возвращает в target этот элемент
+			// если же у target нет этого класса - метод поднимается по родителю выше и проверяет там и берет в target родителя
+			// если нет и там, то идет дольше. Если не находит вообще - возвращает null
+			target = target.closest('.service-header-tab');
 
-			// пока наш таргет не является tabHeader
-			while (target !== tabHeader) {
+			// если наш target имеет класс service-header-tab
+			if (target.classList.contains('service-header-tab')) {
 
-				// если наш target имеет класс service-header-tab
-				if (target.classList.contains('service-header-tab')) {
+				tab.forEach((item, i) => {
 
-					tab.forEach((item, i) => {
+					if (item === target) {
+						toggleTabContent(i);
+					}
 
-						if (item === target) {
-							toggleTabContent(i);
-						}
-
-					});
-					return;
-				}
-				// если не имеет то наш таргет теперь его родитель
-				target = target.parentNode;
+				});
 			}
 
 		});
