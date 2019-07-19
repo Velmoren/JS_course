@@ -79,6 +79,7 @@ window.addEventListener('DOMContentLoaded', function () {
 				menu.classList.toggle('active-menu');
 				return;
 			}
+			menu.classList.toggle('active-menu');
 			return;
 		});
 	};
