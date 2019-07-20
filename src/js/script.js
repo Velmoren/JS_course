@@ -62,13 +62,13 @@ window.addEventListener('DOMContentLoaded', function () {
 			let target = event.target;
 
 			// если target имеет класс close-btn - открываем меню и выходим из программы
-			if (target.classList.contains('close-btn')) {
+			if (target.classList.contains('close-btn') && target.closest('.menu')) {
 				menu.classList.toggle('active-menu');
 				return;
 			}
 
 			// если target не имеет класса close-btn, но имеет тэг <a></a> закрываем меню и выходим из программы
-			if (target.tagName === 'A') {
+			if (target.tagName === 'A' && target.closest('.menu')) {
 				menu.classList.toggle('active-menu');
 				return;
 			}
@@ -192,4 +192,31 @@ window.addEventListener('DOMContentLoaded', function () {
 		});
 	};
 	tabs();
+
+	// slider
+	const slider = () => {
+		const slide = document.querySelectorAll('.portfolio-item'),
+			btn = document.querySelectorAll('.portfolio-btn'),
+			dot = document.querySelectorAll('.dot'),
+			slider = document.querySelector('.portfolio-content');
+
+		let currentSlide = 0;
+
+		const autoPlaySlide = () => {
+			slide[currentSlide].classList.remove('portfolio-item-active');
+			currentSlide++;
+			slide[currentSlide].classList.add('portfolio-item-active');
+		};
+
+		const startSlide = () => {
+			setInterval(autoPlaySlide, 2000);
+		};
+
+		const stopSlide = () => {
+
+		};
+
+		startSlide();
+	};
+	slider();
 });
