@@ -282,4 +282,32 @@ window.addEventListener('DOMContentLoaded', function () {
 		startSlide(userTimer);
 	};
 	slider();
+
+	// Our party
+	const ourParty = () => {
+		const command = document.querySelector('#command');
+
+		command.addEventListener('mouseover', (e) => {
+			let target = e.target;
+			if (target.tagName !== 'IMG') {
+				return;
+			}
+			e.target.src = e.target.dataset.img;
+		});
+	};
+	ourParty();
+
+	// calculator
+	const calc = () => {
+		const calcBlock = document.querySelector('.calc-block');
+
+		calcBlock.addEventListener('keyup', (event) => {
+			let target = event.target;
+			target.value = target.value.replace(/[^\d,]/g, '');
+		});
+
+
+	};
+	calc();
+
 });
