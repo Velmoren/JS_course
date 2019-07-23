@@ -296,12 +296,20 @@ window.addEventListener('DOMContentLoaded', function() {
 	const ourParty = () => {
 		const command = document.querySelector('#command');
 
-		command.addEventListener('mouseover', (e) => {
-			let target = e.target;
+		command.addEventListener('mouseover', (event) => {
+			let target = event.target;
 			if (target.tagName !== 'IMG') {
 				return;
 			}
-			e.target.src = e.target.dataset.img;
+			target.dataset.oldImg = target.getAttribute('src');
+			target.src = target.dataset.img;
+		});
+		command.addEventListener('mouseout', (event) => {
+			let target = event.target;
+			if (target.tagName !== 'IMG') {
+				return;
+			}
+			target.src = target.dataset.oldImg;
 		});
 	};
 	ourParty();
