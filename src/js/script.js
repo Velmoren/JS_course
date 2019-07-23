@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	// таймер 
@@ -55,10 +55,9 @@ window.addEventListener('DOMContentLoaded', function () {
 	// меню
 	const toggleMenu = () => {
 
-		const menu = document.querySelector('menu'),
-			body = document.querySelector('body');
+		const menu = document.querySelector('menu');
 
-		body.addEventListener('click', (event) => {
+		document.body.addEventListener('click', (event) => {
 			let target = event.target;
 
 			// если target имеет класс close-btn - открываем меню и выходим из программы
@@ -129,8 +128,6 @@ window.addEventListener('DOMContentLoaded', function () {
 					}
 				}
 
-
-
 			});
 		};
 		easyTogglePopUp();
@@ -173,8 +170,8 @@ window.addEventListener('DOMContentLoaded', function () {
 		tabHeader.addEventListener('click', (event) => {
 			let target = event.target;
 			// closest проверяет у элемента указанный селектор и, если он соответствует, возвращает в target этот элемент
-			// если же у target нет этого класса - метод поднимается по родителю выше и проверяет там и берет в target родителя
-			// если нет и там, то идет дольше. Если не находит вообще - возвращает null
+			// если же у target нет этого класса - метод поднимается по родителю выше и проверяет там и берет в target 
+			// родителя если нет и там, то идет дольше. Если не находит вообще - возвращает null
 			target = target.closest('.service-header-tab');
 
 			// если наш target имеет класс service-header-tab
@@ -196,14 +193,26 @@ window.addEventListener('DOMContentLoaded', function () {
 	// slider
 	const slider = () => {
 		const slide = document.querySelectorAll('.portfolio-item'),
-			btn = document.querySelectorAll('.portfolio-btn'),
-			dot = document.querySelectorAll('.dot'),
 			slider = document.querySelector('.portfolio-content');
+
+		for (let i = 0; i < slide.length; i++) {
+			const ul = document.querySelector(`.portfolio-dots`),
+				li = document.createElement(`li`);
+			if (i == 0) {
+				li.setAttribute("class", "dot dot-active");
+				// console.log(li);
+				ul.appendChild(li);
+			} else {
+				li.setAttribute("class", "dot");
+				ul.appendChild(li);
+			}
+		}
+
+		const dot = document.querySelectorAll(`.dot`);
 
 		let currentSlide = 0,
 			interval,
 			userTimer = 1000;
-
 
 		const prevSlide = (elem, index, strClass) => {
 			elem[index].classList.remove(strClass);

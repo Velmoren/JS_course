@@ -1,23 +1,31 @@
-'use strict';
+const longestPalindrome = (myString) => {
+	myString = myString.replace(/\s/g, ``);
+	let length = myString.length,
+		result = ``;
 
-const str1 = 'fffkffgffkfdk',
-    str2 = 'абвгоогвфф';
+	const centeredPalindrome = (left, right) => {
+		while (left >= 0 && right < length && myString[left] === myString[right]) {
 
-const findPalindrome = (str) => {
-    let strReal = str,
-        strLenght = str.length,
-        strTest = str.split('').reverse().join(''),
-        arr = [];
+			left--;
+			right++;
+		}
+		return myString.slice(left + 1, right);
+	};
 
-    for (let i = 0; i < strLenght; i++) {
-        if (strReal[i] === strTest[i]) {
-            arr.push(strReal[i]);
-        }
-    }
+	for (let i = 0; i < length - 1; i++) {
+		let oddPal = centeredPalindrome(i, i + 1),
+			evenPal = centeredPalindrome(i, i);
+		if (oddPal.length > result.length) {
+			result = oddPal;
+		}
+		if (evenPal.length > result.length) {
+			result = evenPal;
+		}
 
-    return arr.join('');
-
+	}
+	return result;
 };
-
-console.log(findPalindrome(str1));
-console.log(findPalindrome(str2));
+console.log(longestPalindrome(`fffkffgffkfdk`));
+console.log(longestPalindrome(`абвгоогвфф`));
+console.log(longestPalindrome(`ывйцшзщшгшалашнекуцйдлорпавырпна`));
+console.log(longestPalindrome(`от сила типа капиталистов`));
