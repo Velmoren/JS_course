@@ -359,12 +359,22 @@ window.addEventListener('DOMContentLoaded', function () {
 			// интервал прокрутки стоимости 
 			let totalInterval = setInterval(() => {
 
-				if (count === total) {
+
+				totalValue.textContent = count;
+				if ((total - count) > 10000) {
+					count = count + 1000;
+				} else if ((total - count) > 1000) {
+					count = count + 50;
+				} else if ((total - count) > 100) {
+					count = count + 5;
+				} else if ((total - count) > 0) {
+					count = count + 1;
+				} else if (count >= total) {
 					clearInterval(totalInterval);
 				}
-				totalValue.textContent = count;
-				count = count + 1;
-			}, 1);
+
+
+			}, 10);
 
 		};
 
