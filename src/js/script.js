@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	// таймер 
@@ -359,7 +359,6 @@ window.addEventListener('DOMContentLoaded', function () {
 			// интервал прокрутки стоимости 
 			let totalInterval = setInterval(() => {
 
-
 				totalValue.textContent = count;
 				if ((total - count) > 10000) {
 					count = count + 1000;
@@ -372,7 +371,6 @@ window.addEventListener('DOMContentLoaded', function () {
 				} else if (count >= total) {
 					clearInterval(totalInterval);
 				}
-
 
 			}, 10);
 
