@@ -19,20 +19,27 @@ const Validator = function(options) {
 			}
 		};
 
-	const isValid = () => {
-		(1: 49);
+	const isValid = (elem) => {
+		const method = options.method[elem.id];
+		if (method !== undefined) {
+			return method.every(item => validorMethod[item[0]](elem, pattern[item[1]]));
+		}
+		return true;
+
 	};
 
 	const checkIt = (event) => {
 		let target = event.target;
 
-		if (isValid()) {
+		if (isValid(target)) {
 			showSuccess(target);
 			error.delete(target);
 		} else {
 			showError(target);
 			error.add(target);
 		}
+		console.log(error);
+
 	};
 
 	elementsForm.forEach((elem) => {
@@ -63,4 +70,16 @@ const Validator = function(options) {
 		pattern[key] = options.pattern[key];
 	}
 
+	form.addEventListener('submit', (event) => {
+		elementsForm.forEach((elem) => {
+			event.preventDefault();
+			checkIt({ target: elem });
+		});
+
+		if (error.size) {
+			event.preventDefault();
+		}
+	});
+
 };
+// https://www.youtube.com/watch?v=IGm3jepWOuU   1:47
