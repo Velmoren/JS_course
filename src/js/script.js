@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
 	// таймер 
@@ -71,13 +71,17 @@ window.addEventListener('DOMContentLoaded', function() {
 				menu.classList.toggle('active-menu');
 				return;
 			}
-
+			// если target - наше активное меню - просто выходим из программы
+			if (target.classList.contains('active-menu')) {
+				return;
+			}
 			// если прочие условия не подошли - применяем к target метод closest() и ищем в родителях target класс .menu
 			target = target.closest('.menu');
 			if (target !== null && target.classList.contains('menu')) {
 				menu.classList.toggle('active-menu');
 				return;
 			}
+			// если ни одно условие не подходит - просто закрываем меню
 			menu.classList.remove('active-menu');
 			return;
 		});
