@@ -452,25 +452,25 @@ window.addEventListener('DOMContentLoaded', function () {
 			inputsEmail = document.querySelectorAll('input[name=user_email]'),
 			inputsMessage = document.querySelectorAll('input[name=user_message]');
 
-		inputsName.forEach((item) => {
-			item.addEventListener('input', (elem) => {
-				item.value = item.value.replace(/\d/g, ``);
-				// console.log(item.value);
-			});
+		// inputsName.forEach((item) => {
+		// 	item.addEventListener('input', (elem) => {
+		// 		item.value = item.value.replace(/\d/g, ``);
+		// 		// console.log(item.value);
+		// 	});
 
-		});
-		inputsPhone.forEach((item) => {
-			item.addEventListener('input', (elem) => {
-				item.value = item.value.replace(/^\+{1}[78]/g, ``);
-				console.log(item.value);
-			});
-		});
-		inputsEmail.forEach((item) => {
+		// });
+		// inputsPhone.forEach((item) => {
+		// 	item.addEventListener('input', (elem) => {
+		// 		item.value = item.value.replace(/^\+{1}[78]/g, ``);
+		// 		console.log(item.value);
+		// 	});
+		// });
+		// inputsEmail.forEach((item) => {
 
-		});
-		inputsMessage.forEach((item) => {
+		// });
+		// inputsMessage.forEach((item) => {
 
-		});
+		// });
 
 
 
@@ -478,7 +478,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 		formArr.forEach((item) => {
+			item.addEventListener('input', (elem) => {
+				// валидация 
+				if (elem.target.name === 'user_name') {
+					elem.srcElement.value = elem.srcElement.value.replace(/^[а-яА-Я]$/i, ``);
+				} else if (elem.target.name === 'user_phone') {
+					elem.srcElement.value = elem.srcElement.value.replace(/^\+{1}[78]/g, ``);
+				} else if (elem.target.name === 'user_email') {
+					elem.srcElement.value = elem.srcElement.value.replace(/^\w+@\w+\.\w+$/g, ``);
+				} else if (elem.target.name === 'user_message') {
+					elem.srcElement.value = elem.srcElement.value.replace(/^\w+$/g, ``);
+				} else {
+					return;
+				}
 
+
+				// elem.srcElement.value = elem.srcElement.value.replace(/\d/g, ``);
+
+			});
 			const statusMessage = document.createElement('div');
 			statusMessage.style.cssText = 'font-size: 2rem; color: white';
 
