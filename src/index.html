@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon/favicon-16x16.png">
     <link rel="manifest" href="./images/favicon/site.webmanifest">
     <link rel="mask-icon" href="./images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="stylesheet" href="./validation/assets/validator/validator.css">
     <meta name="msapplication-TileColor" content="#b91d47">
     <meta name="theme-color" content="#ffffff">
 </head>
@@ -423,6 +424,73 @@
     </div>
 
     <script src="./js/script.js"></script>
+    <script src="./validation/assets/validator/validator.js"></script>
+    <script>
+        const validForm1 = new Validator({
+            id: 'form1',
+            // pattern: {
+            // phone: /^\+380\w{9}/
+            // },
+            method: {
+                'form1-name': [
+                    ['notEmpty'],
+                    ['pattern', 'name']
+                ],
+                'form1-email': [
+                    ['notEmpty'],
+                    ['pattern', 'email']
+                ],
+                'form1-phone': [
+                    ['notEmpty'],
+                    ['pattern', 'phone']
+                ],
+            }
+        })
+        const validForm2 = new Validator({
+            id: 'form2',
+            // pattern: {
+            // 	phone: /^\+380\w{9}/
+            // },
+            method: {
+                'form2-name': [
+                    ['notEmpty'],
+                    ['pattern', 'name']
+                ],
+                'form2-email': [
+                    ['notEmpty'],
+                    ['pattern', 'email']
+                ],
+                'form2-phone': [
+                    ['notEmpty'],
+                    ['pattern', 'phone']
+                ],
+                'form2-message': [
+                    ['notEmpty'],
+                    ['pattern', 'message']
+                ]
+            }
+        })
+        const validForm3 = new Validator({
+            id: 'form3',
+            // pattern: {
+            // phone: /^\+380\w{9}/
+            // },
+            method: {
+                'form3-name': [
+                    ['notEmpty'],
+                    ['pattern', 'name']
+                ],
+                'form3-email': [
+                    ['notEmpty'],
+                    ['pattern', 'email']
+                ],
+                'form3-phone': [
+                    ['notEmpty'],
+                    ['pattern', 'phone']
+                ],
+            }
+        })
+    </script>
 
 </body>
 

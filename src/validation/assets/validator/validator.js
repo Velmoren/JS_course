@@ -1,11 +1,13 @@
-const Validator = function(options) {
+const Validator = function (options) {
 
 	const form = document.getElementById(options.id),
 		elementsForm = [...form.elements].filter(item => item.tagName !== 'BUTTON'),
 		error = new Set(),
 		pattern = {
+			name: /^[а-яА-ЯёЁ]+$/,
 			email: /^\w+@\w+\.\w+$/,
-			phone: /^\+?[78]([()-]*\d){10}$/
+			phone: /^\+?[78]([()-]*\d){10}$/,
+			message: /^[а-яА-ЯёЁ]+$/
 		},
 		validorMethod = {
 			notEmpty(elem) {
@@ -21,6 +23,8 @@ const Validator = function(options) {
 
 	const isValid = (elem) => {
 		const method = options.method[elem.id];
+		console.log(options);
+
 		if (method !== undefined) {
 			return method.every(item => validorMethod[item[0]](elem, pattern[item[1]]));
 		}
@@ -30,6 +34,7 @@ const Validator = function(options) {
 
 	const checkIt = (event) => {
 		let target = event.target;
+		console.log('target', target);
 
 		if (isValid(target)) {
 			showSuccess(target);
@@ -47,9 +52,14 @@ const Validator = function(options) {
 	});
 
 	const showError = (elem) => {
+		console.log('elem', elem);
+
 		elem.classList.remove('validator_success');
 		elem.classList.add('validator_error');
 
+		if (elem.nextElementSibling) {
+			elem.nextElementSibling.remove();
+		}
 		const errorDiv = document.createElement('div');
 		errorDiv.textContent = 'Ошибка в этом поле!';
 		errorDiv.classList.add('error-messege');
@@ -61,7 +71,10 @@ const Validator = function(options) {
 		elem.classList.remove('validator_error');
 		elem.classList.add('validator_success');
 
-		if (elem.nextElementSibling.classList.contains('error-messege')) {
+		// if (elem.nextElementSibling.classList.contains('error-messege')) {
+		// 	elem.nextElementSibling.remove();
+		// }
+		if (elem.nextElementSibling) {
 			elem.nextElementSibling.remove();
 		}
 	};
@@ -72,8 +85,9 @@ const Validator = function(options) {
 
 	form.addEventListener('submit', (event) => {
 		elementsForm.forEach((elem) => {
-			event.preventDefault();
-			checkIt({ target: elem });
+			checkIt({
+				target: elem
+			});
 		});
 
 		if (error.size) {
@@ -82,4 +96,3 @@ const Validator = function(options) {
 	});
 
 };
-// https://www.youtube.com/watch?v=IGm3jepWOuU   1:47
