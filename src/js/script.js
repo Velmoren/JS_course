@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 	'use strict';
 
 	// таймер 
@@ -438,4 +438,94 @@ window.addEventListener('DOMContentLoaded', function() {
 		});
 	};
 	smothScroll();
+
+	// send-ajax-form
+	const sendForm = () => {
+
+		const errorMessage = 'Что то пошло не так...',
+			loadMessage = 'Загрузка...',
+			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+		const formArr = document.querySelectorAll('form'),
+			inputsName = document.querySelectorAll('input[name=user_name]'),
+			inputsPhone = document.querySelectorAll('input[name=user_phone]'),
+			inputsEmail = document.querySelectorAll('input[name=user_email]'),
+			inputsMessage = document.querySelectorAll('input[name=user_message]');
+
+		inputsName.forEach((item) => {
+			item.addEventListener('input', (elem) => {
+				item.value = item.value.replace(/\d/g, ``);
+				// console.log(item.value);
+			});
+
+		});
+		inputsPhone.forEach((item) => {
+			item.addEventListener('input', (elem) => {
+				item.value = item.value.replace(/^\+{1}[78]/g, ``);
+				console.log(item.value);
+			});
+		});
+		inputsEmail.forEach((item) => {
+
+		});
+		inputsMessage.forEach((item) => {
+
+		});
+
+
+
+
+
+
+		formArr.forEach((item) => {
+
+			const statusMessage = document.createElement('div');
+			statusMessage.style.cssText = 'font-size: 2rem; color: white';
+
+			item.addEventListener('submit', (event) => {
+				event.preventDefault();
+				item.appendChild(statusMessage);
+				statusMessage.textContent = loadMessage;
+
+				const formData = new FormData(item);
+				let body = {};
+
+				formData.forEach((val, key) => {
+					body[key] = val;
+				});
+				postData(item, body, () => {
+					statusMessage.textContent = successMessage;
+				}, (error) => {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				});
+			});
+
+			const postData = (item, body, outputData, errorData) => {
+				const request = new XMLHttpRequest(),
+					allInputs = item.querySelectorAll('input');
+
+				request.addEventListener('readystatechange', () => {
+
+					if (request.readyState !== 4) {
+						return;
+					}
+					if (request.status === 200) {
+						outputData();
+						allInputs.forEach((item) => item.value = '');
+					} else {
+						errorData(request.status);
+					}
+				});
+				request.open('POST', './server.php');
+				request.setRequestHeader('Content-Type', 'application/json');
+
+				request.send(JSON.stringify(body));
+
+			};
+		});
+
+
+	};
+	sendForm();
 });
