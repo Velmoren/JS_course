@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	// таймер 
@@ -472,26 +472,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
 		// });
 
-
-
-
-
-
 		formArr.forEach((item) => {
 			item.addEventListener('input', (elem) => {
 				// валидация 
 				if (elem.target.name === 'user_name') {
-					elem.srcElement.value = elem.srcElement.value.replace(/^[а-яА-Я]$/i, ``);
+					elem.srcElement.value = elem.srcElement.value.replace(/[^а-яА-ЯёЁ ]/gi, ``);
 				} else if (elem.target.name === 'user_phone') {
-					elem.srcElement.value = elem.srcElement.value.replace(/^\+{1}[78]/g, ``);
+					elem.srcElement.value = elem.srcElement.value.replace(/[^0-9+]/gi, ``);
 				} else if (elem.target.name === 'user_email') {
-					elem.srcElement.value = elem.srcElement.value.replace(/^\w+@\w+\.\w+$/g, ``);
+					// elem.srcElement.value = elem.srcElement.value.replace(/^\w+@\w+\.\w+$/g, ``);
 				} else if (elem.target.name === 'user_message') {
-					elem.srcElement.value = elem.srcElement.value.replace(/^\w+$/g, ``);
+					elem.srcElement.value = elem.srcElement.value.replace(/[^а-яА-ЯёЁ ]/gi, ``);
 				} else {
 					return;
 				}
-
 
 				// elem.srcElement.value = elem.srcElement.value.replace(/\d/g, ``);
 
@@ -541,7 +535,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 			};
 		});
-
 
 	};
 	sendForm();
