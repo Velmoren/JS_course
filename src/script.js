@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 let selector = prompt('Введите селектор'),
 	height = +prompt('Введите высоту (height)'),
 	width = +prompt('Введите ширину (width)'),
@@ -14,12 +14,14 @@ function DomElement(selector, height, width, bg, fontSize) {
 }
 
 DomElement.prototype.createElem = function() {
+	console.log(this);
+
 	if (this.selector.charAt(0) == '.') {
 		let block = document.createElement('div');
 		block.className = this.selector;
 		block.innerHTML = 'Этот элемент является блоком';
 		block.style.cssText = 'height:' + this.height + 'px;' + 'width:' + this.width + 'px;' + 'background:' + this.bg + ';' + 'font-size:' +
-			this.fontSize + 'px;'
+			this.fontSize + 'px;';
 		document.body.appendChild(block);
 	} else if (this.selector.charAt(0) == '#') {
 		let paragraph = document.createElement('p');
@@ -31,8 +33,7 @@ DomElement.prototype.createElem = function() {
 	} else {
 		document.write('передан неверный селектор');
 	}
-}
+};
 
-let elem = new DomElement(selector, height, width, bg, fontSize);
-console.log(elem);
+let elem = new DomElement('.ffff', 200, 200, 'red', 14);
 elem.createElem();
