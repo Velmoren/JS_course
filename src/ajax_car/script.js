@@ -12,7 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
             request.send();
 
             request.addEventListener('readystatechange', () => {
-                if (request.readyState === 4 && request.status === 200) {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
                     resolve(request);
                 } else {
                     reject(new Error(request.statusText));
