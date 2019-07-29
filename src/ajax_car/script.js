@@ -10,11 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
             request.open('GET', './cars.json');
             request.setRequestHeader('Content-type', 'application/json');
             request.send();
+
             request.addEventListener('readystatechange', () => {
                 if (request.readyState === 4 && request.status === 200) {
                     resolve(request);
                 } else {
-                    output.innerHTML = 'Произошла ошибка';
+                    reject(new Error(request.statusText));
                 }
             });
         });
@@ -32,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         Цена: ${price}$`;
                     }
                 });
+            })
+            .catch((error) => {
+                output.innerHTML = 'Произошла ошибка';
+                console.error(error);
+
             });
 
     });
