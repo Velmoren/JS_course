@@ -7,15 +7,20 @@ window.addEventListener('DOMContentLoaded', function () {
         foxBtn = document.getElementById('fox'),
         dogLink = 'https://random.dog/woof.json',
         catLink = 'https://aws.random.cat/meow',
-        foxLink = 'https://randomfox.ca/floof/';
+        foxLink = './request.php';
     let myElement,
         url;
 
     card.addEventListener('click', (event) => {
         let target = event.target;
+
+        if (target.tagName !== 'BUTTON') {
+            return;
+        }
+
         myElement = target.textContent;
         myElement = myElement.toLowerCase();
-        console.log(myElement);
+
         if (myElement === 'dog') {
             url = dogLink;
         } else if (myElement === 'cat') {
@@ -23,7 +28,7 @@ window.addEventListener('DOMContentLoaded', function () {
         } else if (myElement === 'fox') {
             url = foxLink;
         } else {
-            console.error('aaaaaa');
+            console.error('aaaaaa aaact пропало!!!');
         }
 
         fetch(url, {
@@ -39,7 +44,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
                     if (!/mp4$/.test(response.url) && !/webm$/.test(response.url)) {
 
-                        console.log(response.url);
                         const image = document.createElement('img');
                         if (url === dogLink) {
                             image.setAttribute('src', `${response.url}`);
@@ -66,6 +70,14 @@ window.addEventListener('DOMContentLoaded', function () {
                         videoTag.appendChild(videoContent);
 
                     }
+
+                } else if (url === foxLink) {
+
+                    const image = document.createElement('img');
+                    image.setAttribute('src', `${response.image}`);
+                    image.setAttribute('alt', `${myElement}`);
+                    image.style.cssText = 'width: 100%;';
+                    cardContent.appendChild(image);
 
                 }
             });
