@@ -480,6 +480,7 @@ window.addEventListener('DOMContentLoaded', function () {
 				} else if (elem.target.name === 'user_phone') {
 					elem.srcElement.value = elem.srcElement.value.replace(/[^0-9+]/gi, ``);
 				} else if (elem.target.name === 'user_email') {
+					// валидацию формы оставил на десерт :))
 					// elem.srcElement.value = elem.srcElement.value.replace(/^\w+@\w+\.\w+$/g, ``);
 				} else if (elem.target.name === 'user_message') {
 					elem.srcElement.value = elem.srcElement.value.replace(/[^а-яА-ЯёЁ ]/gi, ``);
@@ -504,36 +505,38 @@ window.addEventListener('DOMContentLoaded', function () {
 				formData.forEach((val, key) => {
 					body[key] = val;
 				});
-				postData(item, body)
-					.then(() => statusMessage.textContent = successMessage)
-					.catch(error => statusMessage.textContent = errorMessage);
+				postData(body)
+					.then((response) => {
+
+
+						setTimeout(() => {
+							if (response.status !== 200) {
+								statusMessage.textContent = errorMessage;
+								throw new Error('status network not 200');
+							}
+							const myInputs = item.querySelectorAll('input');
+
+							myInputs.forEach((elem) => {
+								elem.value = '';
+							});
+
+							statusMessage.textContent = successMessage;
+						}, 1000);
+					})
+					.catch(error => {
+						statusMessage.textContent = errorMessage;
+						console.error(error);
+					});
 			});
 
-			const postData = (item, body) => {
-				return new Promise((resolve, reject) => {
-					const request = new XMLHttpRequest(),
-						allInputs = item.querySelectorAll('input');
-
-					request.addEventListener('readystatechange', () => {
-						setTimeout(() => {
-							if (request.readyState !== 4) {
-								return;
-							}
-							if (request.status === 200) {
-								resolve();
-								allInputs.forEach((item) => item.value = '');
-							} else {
-								reject(request.status);
-							}
-						}, 2000);
-
-					});
-					request.open('POST', './server.php');
-					request.setRequestHeader('Content-Type', 'application/json');
-					request.send(JSON.stringify(body));
+			const postData = (body) => {
+				return fetch('./server.php', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(body)
 				});
-
-
 			};
 		});
 
