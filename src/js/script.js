@@ -446,34 +446,11 @@ window.addEventListener('DOMContentLoaded', function () {
 			loadMessage = 'Загрузка...',
 			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-		const formArr = document.querySelectorAll('form'),
-			inputsName = document.querySelectorAll('input[name=user_name]'),
-			inputsPhone = document.querySelectorAll('input[name=user_phone]'),
-			inputsEmail = document.querySelectorAll('input[name=user_email]'),
-			inputsMessage = document.querySelectorAll('input[name=user_message]');
-
-		// inputsName.forEach((item) => {
-		// 	item.addEventListener('input', (elem) => {
-		// 		item.value = item.value.replace(/\d/g, ``);
-		// 		// console.log(item.value);
-		// 	});
-
-		// });
-		// inputsPhone.forEach((item) => {
-		// 	item.addEventListener('input', (elem) => {
-		// 		item.value = item.value.replace(/^\+{1}[78]/g, ``);
-		// 		console.log(item.value);
-		// 	});
-		// });
-		// inputsEmail.forEach((item) => {
-
-		// });
-		// inputsMessage.forEach((item) => {
-
-		// });
+		const formArr = document.querySelectorAll('form');
 
 		formArr.forEach((item) => {
 			item.addEventListener('input', (elem) => {
+
 				// валидация 
 				if (elem.target.name === 'user_name') {
 					elem.srcElement.value = elem.srcElement.value.replace(/[^а-яА-ЯёЁ ]/gi, ``);
@@ -487,8 +464,6 @@ window.addEventListener('DOMContentLoaded', function () {
 				} else {
 					return;
 				}
-
-				// elem.srcElement.value = elem.srcElement.value.replace(/\d/g, ``);
 
 			});
 			const statusMessage = document.createElement('div');
@@ -507,8 +482,6 @@ window.addEventListener('DOMContentLoaded', function () {
 				});
 				postData(body)
 					.then((response) => {
-
-
 						setTimeout(() => {
 							if (response.status !== 200) {
 								statusMessage.textContent = errorMessage;
@@ -542,6 +515,4 @@ window.addEventListener('DOMContentLoaded', function () {
 
 	};
 	sendForm();
-
-
 });
