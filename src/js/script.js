@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
 	'use strict';
 
 	// таймер 
@@ -506,6 +506,7 @@ window.addEventListener('DOMContentLoaded', function () {
 				});
 				postData(item, body)
 					.then(() => statusMessage.textContent = successMessage)
+					.then((allInputs) => allInputs.forEach((item) => item.value = ''))
 					.catch(error => statusMessage.textContent = errorMessage);
 			});
 
@@ -520,8 +521,7 @@ window.addEventListener('DOMContentLoaded', function () {
 								return;
 							}
 							if (request.status === 200) {
-								resolve();
-								allInputs.forEach((item) => item.value = '');
+								resolve(allInputs);
 							} else {
 								reject(request.status);
 							}
@@ -532,7 +532,6 @@ window.addEventListener('DOMContentLoaded', function () {
 					request.setRequestHeader('Content-Type', 'application/json');
 					request.send(JSON.stringify(body));
 				});
-
 
 			};
 		});
