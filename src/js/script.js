@@ -31,13 +31,23 @@ window.addEventListener('DOMContentLoaded', function () {
 
 		function updateClock() {
 			let timer = getTimeRemaining();
+
 			// если число меньше 10 добавляем перед ним 0
-
-			(timer.hours >= 10) ? timerHours.textContent = timer.hours: timerHours.textContent = "0" + timer.hours;
-
-			(timer.minutes >= 10) ? timerMinutes.textContent = timer.minutes: timerMinutes.textContent = "0" + timer.minutes;
-
-			(timer.seconds >= 10) ? timerSeconds.textContent = timer.seconds: timerSeconds.textContent = "0" + timer.seconds;
+			if (timer.hours >= 10) {
+				timerHours.textContent = timer.hours;
+			} else {
+				timerHours.textContent = "0" + timer.hours;
+			}
+			if (timer.minutes >= 10) {
+				timerMinutes.textContent = timer.minutes;
+			} else {
+				timerMinutes.textContent = "0" + timer.minutes;
+			}
+			if (timer.seconds >= 10) {
+				timerSeconds.textContent = timer.seconds;
+			} else {
+				timerSeconds.textContent = "0" + timer.seconds;
+			}
 
 			if (timer.seconds == 0) {
 				// очищаем setInterval если время вышло
