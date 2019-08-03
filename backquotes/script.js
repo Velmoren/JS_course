@@ -5,19 +5,15 @@ let strOne = 'У меня',
     strThree = 'багов!',
     numOne = 2,
     numTwo = 16,
-    numThree = 27;
+    numThree = 28;
+
+const countOne = (myvar) => {
+    const varOne = document.querySelector(`.${myvar}-item`);
+
+    console.log(varOne);
 
 
-const countThree = (myPraram) => {
-    const blockThree = document.querySelector(`.${myPraram}-item`);
-
-    let blockText = blockThree.textContent;
-    blockText = blockText / 2;
-    blockThree.textContent = blockText;
 
 };
-
-countThree('expenses');
-countThree('income');
-
-// надеюсь вам это поможет))
+countOne(`income`);
+countOne(`expenses`);
