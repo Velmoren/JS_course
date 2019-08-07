@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .acc-btn {
+      border: 1px solid #000;
+      width: 600px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .acc-content {
+      border: 1px solid #000;
+      width: 600px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-in-out;
+    }
+
+    .active {
+      display: block;
+    }
+  </style>
+  <title>Accordeon</title>
+</head>
+
+<body>
+
+
+  <div class="acc-btn">Тык первый</div>
+  <div class="acc-content">
+    <p> Lorem ipsum dolor, sit amet consectetur adipisicing. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+      Facilis, debitis tempore. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta officiis repellendus
+      cum
+      dolor. Autem! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis in quas repellendus magnam
+      itaque? Deleniti!</p>
+  </div>
+  <div class="acc-btn">Тык второй</div>
+  <div class="acc-content">
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse incidunt nisi tenetur aut unde
+      eligendi velit! Consequatur illum rem excepturi!</p>
+  </div>
+  <div class="acc-btn">Тык третий</div>
+  <div class="acc-content">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, excepturi officia. Ipsa iste,
+      natus ratione fugiat eius reiciendis deleniti cumque blanditiis exercitationem tempore, rerum provident voluptate
+      id
+      nisi facere debitis porro qui quia omnis temporibus dicta, tempora deserunt doloremque. Quia!</p>
+  </div>
+
+  <script src="./js.js"></script>
+</body>
+
+</html>
