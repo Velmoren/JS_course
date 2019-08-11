@@ -94,10 +94,15 @@ const sendForm = () => {
                         // если это форма, в которой нужно менять контент - меняем, иначе открываем модалку-спасибку
                         if (item.id === 'form1') {
                             statusMessage.textContent = successMessage;
-                        } else {
-                            statusMessage.remove();
-                            popup.style.display = 'block';
+                            return;
+                        } else if (item.id === 'card_order') {
+                            const checkedInput = document.getElementById('m1'),
+                                checkedRadio = document.getElementById('card_leto_mozaika');
+                            checkedInput.checked = true;
+                            checkedRadio.checked = true;
                         }
+                        statusMessage.remove();
+                        popup.style.display = 'block';
                     }, 1000);
                 })
                 .catch(error => {
