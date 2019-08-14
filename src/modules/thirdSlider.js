@@ -19,8 +19,10 @@ const thirdSlider = () => {
     slider.style.position = 'relative';
 
     // добавляем классы для кнопок
-    arrowNext.classList.add('slider-arrow', 'next');
-    arrowPrev.classList.add('slider-arrow', 'prev');
+    arrowNext.classList.add('slider-arrow');
+    arrowNext.classList.add('next');
+    arrowPrev.classList.add('slider-arrow');
+    arrowPrev.classList.add('prev');
 
     // вставляем спецсимволы стрелок
     spanNext.innerHTML = '&gt;';

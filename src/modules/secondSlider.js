@@ -1,7 +1,6 @@
 'use strict';
 
 const secondSlider = () => {
-
     const slider = document.querySelector('.services-slider'),
         slide = document.querySelectorAll('.services-slider > .slide');
 
@@ -9,14 +8,17 @@ const secondSlider = () => {
     const arrowNext = document.createElement('div'),
         arrowPrev = document.createElement('div'),
         spanNext = document.createElement('span'),
-        spanPrev = document.createElement('span');
+        spanPrev = document.createElement('span'),
+        slideClientWidth = slide[0].clientWidth;
 
     // так как по классам файла css элементы кнопок - absolute даем нашему слайдеру relative
     slider.style.position = 'relative';
 
     // добавляем классы для кнопок
-    arrowNext.classList.add('slider-arrow', 'next');
-    arrowPrev.classList.add('slider-arrow', 'prev');
+    arrowNext.classList.add('slider-arrow');
+    arrowNext.classList.add('next');
+    arrowPrev.classList.add('slider-arrow');
+    arrowPrev.classList.add('prev');
 
     // вставляем спецсимволы стрелок
     spanNext.innerHTML = '&gt;';
@@ -28,68 +30,48 @@ const secondSlider = () => {
     arrowNext.appendChild(spanNext);
     arrowPrev.appendChild(spanPrev);
 
+    slider.style.overflow = 'hidden';
+
+
     // указываем количество слайдов, после пляшем от этого количества
     // при желании можно адаптировать
     let numberSlide = 5,
-        // и обьявляем переменную index равную количенству слайдов
-        index = numberSlide;
+        indexSlide = 0;
 
-    // перебираем все слайды и удаляем лишние.
-    slide.forEach((item, index) => {
-        if (index > numberSlide - 1) {
-            slider.removeChild(item);
-        }
-    });
-
-    const prevSlide = () => {
-        // заносим в переменную все существующие на странице слайды
-        const activeSlide = slider.querySelectorAll('.slide');
-        // указываем индекс последнего элемента
-        let indexLast = index;
-        // удаляем первый слайд существующий на странице и добавляем в конец слайд следующий по индексу полученный ранее
-        slider.removeChild(activeSlide[0]);
-        slider.appendChild(slide[indexLast]);
-
-        // увеличиваем undex на единицу
-        index++;
-
-        // и если индекс последнего элемента равен индексу последнего элемента в списке полученном ранее
-        // обнуляем index
-        if (indexLast === slide.length - 1) {
-            index = 0;
-        }
-    };
-
-    const nextSlide = () => {
-        // заносим в переменную все существующие на странице слайды
-        const activeSlide = slider.querySelectorAll('.slide');
-        // увеличиваем undex на единицу
-        index--;
-        // указываем индекс первого элемента и высчитываем его
-        let indexFirst;
-
-        if (index <= -1) {
-            indexFirst = index - numberSlide;
+    const next = () => {
+        if (indexSlide === slide.length - numberSlide) {
+            indexSlide = 0;
         } else {
-            indexFirst = index;
+            indexSlide++;
         }
-
-        if (indexFirst <= -1) {
-            indexFirst = slide.length - 1;
-            index = slide.length - 1;
-        }
-        slider.removeChild(activeSlide[numberSlide - 1]);
-        slider.insertBefore(slide[indexFirst], slider.firstChild);
+        changeSlide();
     };
 
-    arrowPrev.addEventListener('click', () => {
-        prevSlide();
-    });
+    const prev = () => {
+        if (indexSlide < 1) {
+            indexSlide = slide.length - numberSlide;
+        } else {
+            indexSlide--;
+        }
+        changeSlide();
+    };
+
+    const changeSlide = () => {
+        slide.forEach((item) => {
+            item.style.transform = `translateX(-${indexSlide * (slideClientWidth + 16)}px)`;
+            item.style.marginLeft = '0';
+            item.style.marginRight = `16px`;
+        });
+    };
+    changeSlide();
 
     arrowNext.addEventListener('click', () => {
-        nextSlide();
+        next();
     });
-
+    arrowPrev.addEventListener('click', () => {
+        prev();
+    });
 };
+
 
 export default secondSlider;

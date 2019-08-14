@@ -6,7 +6,8 @@ const openModal = () => {
         freeVisitForm = document.getElementById('free_visit_form'),
         giftForm = document.getElementById('gift'),
         thanksModal = document.getElementById('thanks'),
-        callbackBtn = document.querySelectorAll('.callback-btn');
+        callbackBtn = document.querySelectorAll('.callback-btn'),
+        fixedGift = document.querySelector('.fixed-gift');
 
     document.body.addEventListener('click', (event) => {
         let target = event.target;
@@ -17,6 +18,7 @@ const openModal = () => {
             callbackForm.style.display = 'block';
         } else if (target.closest('.fixed-gift')) {
             giftForm.style.display = 'block';
+            fixedGift.style.display = 'none';
         } else if (target.classList.contains('overlay') ||
             target.closest('.close-form') ||
             target.classList.contains('close-btn')) {

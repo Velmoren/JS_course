@@ -3,7 +3,7 @@
 const calc = () => {
 
     // если у html страницы отсутствует ID (избегаем ошибок на других страницах с теми же классами и формами)
-    if (!document.querySelector('html').id) {
+    if (document.querySelector('html').id === 'hero-html') {
 
         const cardLetoMozaika = document.getElementById('card_leto_mozaika'),
             cardLetoSchelkovo = document.getElementById('card_leto_schelkovo'),
