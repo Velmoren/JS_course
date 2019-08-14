@@ -1,58 +1,49 @@
 'use strict';
 const smothScroll = () => {
 
-    var ua = window.navigator.userAgent;
-    var isIE = /MSIE|Trident/.test(ua);
-    const headerBlock = document.querySelector('.head'),
-        totopArrow = document.getElementById('totop');
-    headerBlock.id = 'scroll';
+    const ua = window.navigator.userAgent;
+    const isIE = /MSIE|Trident/.test(ua);
 
     if (isIE) {
-        const anchors = document.querySelectorAll('[href^="#"]'),
-            animationTime = 800,
-            framesCount = 20;
+        const anchors = document.querySelectorAll('a[href^="#"]');
 
+        anchors.forEach((item) => {
 
-
-
-        anchors.forEach(item => {
             item.addEventListener('click', (event) => {
                 event.preventDefault();
-
                 let target = event.target;
+                requestAnimationFrame(step);
 
-                if (target.closest('.active-menu ul')) {
+                let speed = 0.2,
+                    startScroll = window.pageYOffset,
+                    myItem = item.getAttribute('href'),
+                    finishScroll = document.querySelector(myItem).getBoundingClientRect().top,
+                    start = null;
 
-                }
-                let myItem = item.getAttribute('href');
-
-
-                // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
-                let coordY = document.querySelector(myItem).getBoundingClientRect().top;
-
-                // запускаем интервал, в котором
-                let scroller = setInterval(() => {
-                    // считаем на сколько скроллить за 1 такт
-                    let scrollBy = coordY / framesCount;
-                    // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
-                    // и дно страницы не достигнуто
-                    if (scrollBy > window.pageYOffset -
-                        coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
-                        // то скроллим на к-во пикселей, которое соответствует одному такту
-                        window.scrollBy(0, scrollBy);
-                    } else {
-                        // иначе добираемся до элемента и выходим из интервала
-                        window.scrollBy(0, coordY);
-                        clearInterval(scroller);
+                function step(time) {
+                    // в первый кадр запомним время старта
+                    if (start === null) {
+                        start = time;
                     }
-                    // время интервала равняется частному от времени анимации и к-ва кадров
-                }, animationTime / framesCount);
+                    let progress = time - start, // определить, сколько прошло времени с начала анимации
+                        nowScroll = null; // текущее положение сколла
+
+                    // в зависимости от того двигаемся вверх или вниз, определим текущее положение сколла
+                    if (finishScroll < 0) {
+                        nowScroll = Math.max(startScroll - progress / speed, startScroll + finishScroll);
+                    } else {
+                        nowScroll = Math.min(startScroll + progress / speed, startScroll + finishScroll);
+                    }
+                    // прокрутим скролл
+                    window.scrollTo(0, nowScroll);
+                    // если прокрутка еще не окончена, повторим шаг
+                    if (nowScroll != startScroll + finishScroll) {
+                        requestAnimationFrame(step); // запланировать отрисовку следующего кадра
+                    }
+                }
             });
         });
-    }
-
-    if (!isIE) {
-
+    } else {
         const totop = document.getElementById('totop'),
             headerMain = document.querySelector('.header-main');
         headerMain.id = 'top';
