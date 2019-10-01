@@ -1,0 +1,62 @@
+* {
+    font-family: sans-serif;
+}
+span {
+    color: purple;
+    font-size: 18px;
+}
+p {
+    width: 280px;
+}
+
+.container {
+    display: inline-block;
+    /* overflow: hidden; */
+    flex-direction: column;
+    width: 1480px;
+    margin: 0 auto;
+    display: flex;
+    box-sizing: border-box;
+}
+.photo {
+    display: flex;
+    overflow-x: scroll;
+    width: 1480px;
+}
+.img {
+    width: 90%;    
+}
+.cardWrap {
+    box-sizing: border-box;
+    display: none;
+    border: 1px solid #c7c5c5;
+    padding-top: 20px;
+    width: 300px;
+    height: 100%;
+    background-color: #e8e6e6;
+}
+
+.persWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+.filter li {
+    margin: 0 7px 0 7px;
+}
+.filter li:hover{
+    color: red;
+    cursor: pointer;
+}
+.title {
+    font-size: 24px;
+    font-style: bold;
+}
